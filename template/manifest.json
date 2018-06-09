@@ -1,0 +1,41 @@
+{
+  "name": "__MSG_appName__",
+  "version": "0.3.1",
+  "manifest_version": 2,
+  "description": "__MSG_appDesc__",
+  "short_name": "Unikey",
+  "default_locale": "vi",
+  "author": "Lê Quốc Tuấn <mr.lequoctuan@gmail.com",
+  "background":  {
+    "scripts": [
+      "main.js"
+    ]
+  },
+  "permissions": [
+    "input"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "input_components": [
+    {
+      "name": "Vietnamese - Unikey (Telex)",
+      "type": "ime",
+      "id": "unikey-telex",
+      "description": "Telex input style",
+      "language": "vi",
+      "layouts": []
+    },
+    {
+      "name": "Vietnamese - Unikey (VNI)",
+      "type": "ime",
+      "id": "unikey-vni",
+      "description": "VNI input style",
+      "language": "vi",
+      "layouts": []
+    }
+  ],
+  "icons": {
+    "16": "16.png",
+    "48": "48.png",
+    "128": "128.png"
+  }
+}
