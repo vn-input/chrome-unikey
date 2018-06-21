@@ -63,7 +63,13 @@ var init_chrome_unikey = function() {
   }
 
   chrome.storage.sync.get(['unikey_options'], function(result) {
-    unikey_opts = result.unikey_options;
+    if (!'unikey_options' in result) {
+      return
+    }
+    var new_opts = result.unikey_options;
+    for (var k in new_opts) {
+      unikey_opts[k] = new_opts[k];
+    }
     updateMenuItems();
   });
 
@@ -177,6 +183,11 @@ var init_chrome_unikey = function() {
 
     updateMenuItems();
     unikey.set_options(unikey_opts);
-    chrome.storage.sync.set({unikey_options: unikey_opts});
+    var save_opts = {};
+    for (var k in unikey_opts) {
+      if (unikey_opts[k] == true)
+        save_opts[k] = true;
+    }
+    chrome.storage.sync.set({unikey_options: save_opts});
   });
 }
