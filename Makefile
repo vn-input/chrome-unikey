@@ -18,6 +18,7 @@ release: libunikey
 debug: libunikey
 	@$(RM) -r $(BUILD_DIR)/$@
 	@cp -r template $(BUILD_DIR)/$@
+	@sed -iE 's/__MSG_appName__/\0 DEBUG/ ; s/Vietnamese[^"]*/\0 DEBUG/' $(BUILD_DIR)/$@/manifest.json
 	@$(EMCC) embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUNIKEY_INC) -O0 --memory-init-file 0 -s WASM=0 --post-js main.js -o $(BUILD_DIR)/$@/main.js
 
 clean:
