@@ -1,0 +1,3 @@
+[submodule "libunikey"]
+	path = libunikey
+	url = https://github.com/vn-input/libunikey.git
