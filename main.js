@@ -80,7 +80,7 @@ var init_chrome_unikey = function() {
 
   ime_api.onActivate.addListener(function(engineID) {
     if (engineID == "unikey-telex") {
-      INPUT_METHOD_KEYS = /^[a-zA-Z]$/;
+      INPUT_METHOD_KEYS = /^[a-zA-Z{}\[\]]$/;
       unikey.set_input_method(Module.InputMethod.TELEX);
     } else {
       INPUT_METHOD_KEYS = /^[a-zA-Z0-9]$/;
