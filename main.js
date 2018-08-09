@@ -131,12 +131,7 @@ var init_chrome_unikey = function() {
 
     if (!keyData.ctrlKey && keyData.key.match(INPUT_METHOD_KEYS)) {
       unikey.process_char(keyData.key.charCodeAt(0));
-      var r = unikey.get_result();
-      ime_api.setComposition({
-        "contextID": context_id,
-        "text": r,
-        "cursor": r.length,
-      });
+      update_composition();
       return true;
     }
 
