@@ -6,3 +6,15 @@ chrome-unikey is an chrome extension that provide input method for Chrome OS tha
 The extension is published at [Chrome Webstore](https://chrome.google.com/webstore/detail/unikey-ime-ti%E1%BA%BFng-vi%E1%BB%87t-bet/onehcjejplajliiggjeimjkdfegpoiko/)
 
 Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for any question, feature request or bug
+
+## Install
+
+1. Install [emscripten sdk](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
+2. Then type `make` to build
+
+    ```
+    source /path/to/emsdk/emsdk_env.sh
+    cd chrome-unikey
+    make
+    ```
+
