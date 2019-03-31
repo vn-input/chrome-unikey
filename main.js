@@ -96,6 +96,14 @@ var update_composition = function() {
   });
 }
 
+var commit_and_reset = function() {
+  ime_api.commitText({
+    "contextID": context_id,
+    "text": unikey.get_result(),
+  });
+  unikey.reset();
+}
+
 ime_api.onKeyEvent.addListener(function(engineID, keyData) {
   if (keyData.type != "keydown") {
     if (keyData.key == "Shift") {
@@ -120,33 +128,21 @@ ime_api.onKeyEvent.addListener(function(engineID, keyData) {
     return true;
   }
 
-  if (!keyData.ctrlKey && keyData.key.match(INPUT_METHOD_KEYS)) {
+  if (!keyData.ctrlKey && !keyData.altKey && keyData.key.length == 1 && keyData.key.charCodeAt(0) > 0) {
     unikey.process_char(keyData.key.charCodeAt(0));
-    update_composition();
+    if (keyData.key.match(INPUT_METHOD_KEYS)) {
+      update_composition();
+    } else {
+      commit_and_reset();
+    }
     return true;
   }
 
-  if (keyData.code.match(/(AudioVolume|Brightness)/)) {
-    return false;
+  if ((keyData.ctrlKey && keyData.key != "Ctrl")
+      || (keyData.altKey && keyData.key != "Alt")
+      || keyData.code.match(/^(Arrow|Tab)/)) {
+    commit_and_reset();
   }
-
-  if (keyData.key == ' ' && unikey_opts[KEY_AUTORESTORE]) {
-    unikey.process_char(keyData.key.charCodeAt(0));
-    ime_api.commitText({
-      "contextID": context_id,
-      "text": unikey.get_result(),
-    });
-    unikey.reset();
-    return true;
-  }
-
-  // console.log(keyData);
-
-  ime_api.commitText({
-    "contextID": context_id,
-    "text": unikey.get_result(),
-  });
-  unikey.reset();
 
   return false;
 });
