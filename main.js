@@ -148,18 +148,14 @@ ime_api.onKeyEvent.addListener(function(engineID, keyData) {
 });
 
 ime_api.onMenuItemActivated && ime_api.onMenuItemActivated.addListener(function(engineID, menu_id) {
-  if (menu_id == KEY_SPELLCHECK) {
-    unikey_opts[menu_id] = !unikey_opts[menu_id];
-    if (!unikey_opts[menu_id]) {
-      unikey_opts[KEY_AUTORESTORE] = false;
-    }
-  } else if (menu_id == KEY_AUTORESTORE) {
-    unikey_opts[menu_id] = !unikey_opts[menu_id];
-    if (unikey_opts[menu_id]) {
-      unikey_opts[KEY_SPELLCHECK] = true;
-    }
-  } else if (menu_id == KEY_MODERN_STYLE) {
-    unikey_opts[menu_id] = !unikey_opts[menu_id];
+  unikey_opts[menu_id] = !unikey_opts[menu_id];
+
+  if (menu_id == KEY_SPELLCHECK && !unikey_opts[menu_id]) {
+    // disable autorestore if spellcheck disabled
+    unikey_opts[KEY_AUTORESTORE] = false;
+  } else if (menu_id == KEY_AUTORESTORE && unikey_opts[menu_id]) {
+    // enable spellcheck if enable autorestore
+    unikey_opts[KEY_SPELLCHECK] = true;
   }
 
   updateMenuItems();
