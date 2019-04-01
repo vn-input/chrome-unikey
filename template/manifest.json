@@ -1,11 +1,11 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.5.0",
+  "version": "__VERSION__",
   "manifest_version": 2,
   "description": "__MSG_appDesc__",
   "short_name": "Unikey",
   "default_locale": "vi",
-  "author": "Lê Quốc Tuấn <mr.lequoctuan@gmail.com",
+  "author": "Lê Quốc Tuấn <mr.lequoctuan@gmail.com>",
   "background":  {
     "scripts": [
       "main.js"
