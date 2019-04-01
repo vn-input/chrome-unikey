@@ -23,7 +23,7 @@ debug: libunikey
 	@$(RM) -r $(BUILD_DIR)/$@
 	@cp -r template $(BUILD_DIR)/$@
 
-	@sed -i.bak -E "s/__VERSION__/`git describe --tags | sed -E 's/v([0-9.]*).*/\1/'`/" $(BUILD_DIR)/$@/manifest.json
+	@sed -i.bak -E "s/__VERSION__/`git describe --tags | sed -E 's/v([0-9.]*).*/\1/'`.`date +%M%S`/" $(BUILD_DIR)/$@/manifest.json
 	@sed -i.bak -E 's/__MSG_appName__/\0 DEBUG/ ; s/Vietnamese[^"]*/\0 DEBUG/' $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
 

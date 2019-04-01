@@ -138,11 +138,14 @@ ime_api.onKeyEvent.addListener(function(engineID, keyData) {
     return true;
   }
 
-  if ((keyData.ctrlKey && keyData.key != "Ctrl")
-      || (keyData.altKey && keyData.key != "Alt")
-      || keyData.code.match(/^(Arrow|Tab|Enter)/)) {
-    commit_and_reset();
+  // special case not need to commit text
+  if ((keyData.ctrlKey && keyData.key == "Ctrl")
+      || (keyData.altKey && keyData.key == "Alt")
+      || keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay)/)) {
+    return false;
   }
+
+  commit_and_reset();
 
   return false;
 });
