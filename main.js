@@ -140,7 +140,7 @@ ime_api.onKeyEvent.addListener(function(engineID, keyData) {
 
   if ((keyData.ctrlKey && keyData.key != "Ctrl")
       || (keyData.altKey && keyData.key != "Alt")
-      || keyData.code.match(/^(Arrow|Tab)/)) {
+      || keyData.code.match(/^(Arrow|Tab|Enter)/)) {
     commit_and_reset();
   }
 
