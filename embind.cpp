@@ -37,6 +37,7 @@ EMSCRIPTEN_BINDINGS(simple_unikey) {
     ;
   enum_<SimpleUnikey::InputMethod>("InputMethod")
     .value("TELEX", SimpleUnikey::InputMethod::TELEX)
+    .value("TELEX_SIMPLE", SimpleUnikey::InputMethod::TELEX_SIMPLE)
     .value("VNI", SimpleUnikey::InputMethod::VNI)
     ;
   value_object<Options>("UnikeyOptions")

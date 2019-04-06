@@ -26,6 +26,14 @@
       "layouts": []
     },
     {
+      "name": "Vietnamese - Unikey (Telex - Simple)",
+      "type": "ime",
+      "id": "unikey-telex-simple",
+      "description": "Simple Telex input style",
+      "language": "vi",
+      "layouts": []
+    },
+    {
       "name": "Vietnamese - Unikey (VNI)",
       "type": "ime",
       "id": "unikey-vni",

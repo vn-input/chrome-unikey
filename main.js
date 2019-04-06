@@ -73,6 +73,9 @@ ime_api.onActivate.addListener(function(engineID) {
   if (engineID == "unikey-telex") {
     INPUT_METHOD_KEYS = /^[a-zA-Z{}\[\]]$/;
     unikey.set_input_method(Module.InputMethod.TELEX);
+  } else if (engineID == "unikey-telex-simple") {
+    INPUT_METHOD_KEYS = /^[a-zA-Z]$/;
+    unikey.set_input_method(Module.InputMethod.TELEX_SIMPLE);
   } else {
     INPUT_METHOD_KEYS = /^[a-zA-Z0-9]$/;
     unikey.set_input_method(Module.InputMethod.VNI);
