@@ -1,3 +1,2 @@
-release
-release.zip
-debug
+build/
+node_modules/

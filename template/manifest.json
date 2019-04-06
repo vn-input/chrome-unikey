@@ -8,6 +8,7 @@
   "author": "Lê Quốc Tuấn <mr.lequoctuan@gmail.com>",
   "background":  {
     "scripts": [
+      "unikey.js",
       "main.js"
     ]
   },

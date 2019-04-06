@@ -1,0 +1,23 @@
+{
+  "name": "chrome-unikey",
+  "version": "0.5.2",
+  "description": "chrome-unikey is an chrome extension that provide input method for Chrome OS that built on [libunikey](https://github.com/vn-input/libunikey)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vn-input/chrome-unikey.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vn-input/chrome-unikey/issues"
+  },
+  "homepage": "https://github.com/vn-input/chrome-unikey#readme",
+  "devDependencies": {
+    "mocha": "^6.1.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
