@@ -16,7 +16,16 @@
   },
   "homepage": "https://github.com/vn-input/chrome-unikey#readme",
   "devDependencies": {
+    "bootstrap": "^4.3.1",
+    "css-loader": "^2.1.1",
+    "jquery": "^3.3.1",
     "mocha": "^6.1.1",
+    "node-sass": "4.x",
+    "popper.js": "^1.15.0",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
   }

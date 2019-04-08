@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head><title>Chrome Unikey Options</title></head>
+<body class="mt-5 mx-auto" style="display: none">
+
+<div class="container p-4">
+    <div id="notification"></div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="suggestion-tab" data-toggle="tab" href="#suggestion" role="tab" aria-controls="suggestion" aria-selected="false">Suggestion</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="mt-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="spellcheck">
+            <label class="form-check-label" for="spellcheck">
+              Spellcheck
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="auto-restore">
+            <label class="form-check-label" for="auto-restore">
+              Auto restore
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="modern-style">
+            <label class="form-check-label" for="modern-style">
+              Modern style
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="suggestion" role="tabpanel" aria-labelledby="suggestion-tab">
+        <div class="mt-2">
+          <div class="alert alert-info" role="alert">
+            This is an experimental feature!
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="suggestion-enabled">
+            <label class="form-check-label" for="suggestion-enabled">
+              Enable suggestion
+            </label>
+          </div>
+
+          <div id="suggestion-settings" class="ml-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="useHkArrow">
+              <label class="form-check-label" for="useHkArrow">
+                Use <span class="hotkey">Up/Down/Enter</span> for select suggestion
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="useHkNumber">
+              <label class="form-check-label" for="useHkNumber">
+                Use <span class="hotkey">Ctrl+[0-9]</span> for select suggestion
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="useHkSwitch">
+              <label class="form-check-label" for="useHkSwitch">
+                Use <span class="hotkey">Ctrl+`</span> for change text case, <span class="hotkey">Ctrl+~</span> for remove Vietnamese marks
+              </label>
+            </div>
+            <div class="form-check ml-4">
+              <input class="form-check-input" type="checkbox" value="" id="autoResetSwitch">
+              <label class="form-check-label" for="autoResetSwitch">
+                Reset state for new suggestion
+              </label>
+            </div>
+
+            <div class="mb-3 mt-2">
+              <label for="suggestion-text">Suggestion strings (separated by new-line)</label>
+              <div class="ml-3">
+                <textarea class="form-control" id="suggestion-text" rows=15 placeholder="suggestion strings"></textarea>
+                <button type="button" class="btn btn-secondary" id="suggestion-save">Save</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>

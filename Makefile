@@ -25,7 +25,7 @@ debug: libunikey
 	@sed -i.bak -E 's/__MSG_appName__/\0 DEBUG/ ; s/Vietnamese[^"]*/\0 DEBUG/' $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
 
-	@npx webpack --config webpack.dev.js --output $(BUILD_DIR)/$@/main.js
+	@npx webpack --config webpack.dev.js --output-path $(BUILD_DIR)/$@/
 	@$(BASE_EMCC) -o $(BUILD_DIR)/$@/unikey.js -O0
 
 release: libunikey
@@ -35,7 +35,7 @@ release: libunikey
 	@sed -i.bak -E "s/__VERSION__/`node -p "require('./package.json').version"`/" $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
 
-	@npx webpack --config webpack.prod.js --output $(BUILD_DIR)/$@/main.js
+	@npx webpack --config webpack.prod.js --output-path $(BUILD_DIR)/$@/
 	@$(BASE_EMCC) -o $(BUILD_DIR)/$@/unikey.js -O3
 	@$(RM) $(BUILD_DIR)/$@.zip && (cd $(BUILD_DIR)/$@ && zip -r ../$@.zip *)
 

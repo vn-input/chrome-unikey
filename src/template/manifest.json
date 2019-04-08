@@ -12,6 +12,7 @@
       "main.js"
     ]
   },
+  "options_page": "options.html",
   "permissions": [
     "input",
     "storage"

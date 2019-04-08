@@ -11,5 +11,6 @@ before_install:
 
 script:
   - docker exec -it emscripten npm install
+  - docker exec -it emscripten npm rebuild node-sass
   - docker exec -it emscripten make
   - docker exec -it emscripten make test

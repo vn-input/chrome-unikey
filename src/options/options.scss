@@ -1,0 +1,19 @@
+@import "custom";
+
+body {
+	background-color: $gray-200;
+	max-width: 760px;
+}
+
+div.container {
+	background-color: $white;
+	border: 1px solid $gray-400;
+}
+
+#suggestion-settings {
+	.hotkey {
+		color: #439ec2;
+		font-style: italic;
+		font-weight: bold;
+	}
+}
