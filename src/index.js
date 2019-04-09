@@ -3,7 +3,7 @@ var ime_api = chrome.input.ime;
 if (ime_api.onActivate && ime_api.onFocus && ime_api.onBlur && ime_api.onKeyEvent && ime_api.onMenuItemActivated) {
 	var crxuk = require('./crxuk');
 
-	var unikey = new crxuk.ChromeUnikey(chrome, Module);
+	var unikey = new crxuk.ChromeUnikey(chrome, LibUnikey);
 	var onActivate = unikey.onActivate.bind(unikey);
 	var onFocus = unikey.onFocus.bind(unikey);
 	var onBlur = unikey.onBlur.bind(unikey);
