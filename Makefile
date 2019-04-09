@@ -6,7 +6,7 @@ BUILD_DIR = $(SOURCE_DIR)/build
 LIBUNIKEY_LIB = $(BUILD_DIR)/libunikey/src/libunikey.a
 LIBUNIKEY_INC = -I $(SOURCE_DIR)/libunikey/src
 
-BASE_EMCC = $(EMCC) embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUNIKEY_INC) \
+BASE_EMCC = $(EMCC) $(SOURCE_DIR)/src/embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUNIKEY_INC) \
 	-s ENVIRONMENT=web \
 	-s MODULARIZE_INSTANCE=1 \
 	-s EXPORT_NAME=LibUnikey \
@@ -19,7 +19,7 @@ all: debug release
 
 debug: libunikey
 	@$(RM) -r $(BUILD_DIR)/$@
-	@cp -r template $(BUILD_DIR)/$@
+	@cp -r $(SOURCE_DIR)/src/template $(BUILD_DIR)/$@
 
 	@sed -i.bak -E "s/__VERSION__/`node -p "require('./package.json').version"`.`date +%M%S`/" $(BUILD_DIR)/$@/manifest.json
 	@sed -i.bak -E 's/__MSG_appName__/\0 DEBUG/ ; s/Vietnamese[^"]*/\0 DEBUG/' $(BUILD_DIR)/$@/manifest.json
@@ -30,7 +30,7 @@ debug: libunikey
 
 release: libunikey
 	@$(RM) -r $(BUILD_DIR)/$@
-	@cp -r template $(BUILD_DIR)/$@
+	@cp -r $(SOURCE_DIR)/src/template $(BUILD_DIR)/$@
 
 	@sed -i.bak -E "s/__VERSION__/`node -p "require('./package.json').version"`/" $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
