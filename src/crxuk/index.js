@@ -1,201 +1,204 @@
-var ime_api, storage_api;
-var unikey; // SimpleUnikey instance
-var libunikey
-
-var context_id = -1;
-var INPUT_METHOD_KEYS; // switch chars need capture by current input method
-var shift_had_pressed = false;
 
 const KEY_SPELLCHECK = "spellcheck";
 const KEY_AUTORESTORE = "auto_restore_non_vn";
 const KEY_MODERN_STYLE = "modern_style";
+const KEY_UNIKEY_OPTIONS = "unikey_options";
 
-var unikey_opts = {
-	spellcheck: false,
-	auto_restore_non_vn: false,
-	modern_style: false,
-};
+var INPUT_METHODS;
 
-var MENU_ITEMS = {}
-MENU_ITEMS[KEY_SPELLCHECK] = {
-	id: KEY_SPELLCHECK,
-	label: "Spellcheck",
-	style: "check",
-	checked: false,
-}
-MENU_ITEMS[KEY_AUTORESTORE] = {
-	id: KEY_AUTORESTORE,
-	label: "Auto restore non Vietnamese",
-	style: "check",
-	checked: false,
-}
-MENU_ITEMS[KEY_MODERN_STYLE] = {
-	id: KEY_MODERN_STYLE,
-	label: "Modern style (oà, uý)",
-	style: "check",
-	checked: false,
-}
+class ChromeUnikey {
+	constructor(chrome, libunikey) {
+		this.ime_api = chrome.input.ime;
+		this.storage_api = chrome.storage;
 
-var MENU = {
-	"items": [
-		MENU_ITEMS[KEY_SPELLCHECK],
-		MENU_ITEMS[KEY_AUTORESTORE],
-		MENU_ITEMS[KEY_MODERN_STYLE],
-	],
-};
-
-function updateMenuItems() {
-	for (var k in unikey_opts) {
-		MENU_ITEMS[k].checked = unikey_opts[k];
-	}
-
-	if (MENU.engineID) {
-		ime_api.updateMenuItems(MENU);
-	}
-}
-
-function init(chrome, _libunikey) {
-	ime_api = chrome.input.ime;
-	storage_api = chrome.storage;
-	if (typeof _libunikey != 'undefined') {
-		libunikey = _libunikey;
-	} else {
-		libunikey = Module;
-	}
-	unikey = new libunikey.SimpleUnikey();
-
-	context_id = -1;
-	shift_had_pressed = false;
-
-	storage_api.sync.get(['unikey_options'], function(result) {
-		if (!'unikey_options' in result) {
-			return
+		if (!INPUT_METHODS) {
+			INPUT_METHODS = {
+				"unikey-telex": {
+					id: libunikey.InputMethod.TELEX,
+					keys: /^[a-zA-Z{}\[\]]$/,
+				},
+				"unikey-telex-simple": {
+					id: libunikey.InputMethod.TELEX_SIMPLE,
+					keys: /^[a-zA-Z]$/,
+				},
+				"unikey-vni": {
+					id: libunikey.InputMethod.VNI,
+					keys: /^[a-zA-Z0-9]$/,
+				},
+			}
 		}
-		var new_opts = result.unikey_options;
-		for (var k in new_opts) {
-			unikey_opts[k] = new_opts[k];
+
+		this.unikey = new libunikey.SimpleUnikey();
+
+		this.unikey_opts = {
+			spellcheck: false,
+			auto_restore_non_vn: false,
+			modern_style: false,
+		};
+
+		this.shiftHadPressed = false;
+		this.contextID = -1;
+
+		this.menuItems = this._buildOptionMenu();
+		this.menu = {
+			engineID: '',
+			items: [
+				this.menuItems[KEY_SPELLCHECK],
+				this.menuItems[KEY_AUTORESTORE],
+				this.menuItems[KEY_MODERN_STYLE],
+			]
 		}
-		updateMenuItems();
-	});
-}
 
-function onMenuItemActivated(engineID, menu_id) {
-	unikey_opts[menu_id] = !unikey_opts[menu_id];
-
-	if (menu_id == KEY_SPELLCHECK && !unikey_opts[menu_id]) {
-		// disable autorestore if spellcheck disabled
-		unikey_opts[KEY_AUTORESTORE] = false;
-	} else if (menu_id == KEY_AUTORESTORE && unikey_opts[menu_id]) {
-		// enable spellcheck if enable autorestore
-		unikey_opts[KEY_SPELLCHECK] = true;
+		this.storage_api.sync.get([KEY_UNIKEY_OPTIONS], function(result) {
+			if (!(KEY_UNIKEY_OPTIONS in result)) {
+				return;
+			}
+			var new_opts = result[KEY_UNIKEY_OPTIONS];
+			for (var k in new_opts) {
+				this.unikey_opts[k] = new_opts[k];
+			}
+			this.updateMenuItems();
+		});
 	}
 
-	updateMenuItems();
-	unikey.set_options(unikey_opts);
-	var save_opts = {};
-	for (var k in unikey_opts) {
-		if (unikey_opts[k] == true)
-			save_opts[k] = true;
-	}
-	storage_api.sync.set({unikey_options: save_opts});
-}
-
-var update_composition = function() {
-	var r = unikey.get_result();
-	ime_api.setComposition({
-		"contextID": context_id,
-		"text": r,
-		"cursor": r.length,
-	});
-}
-
-var commit_and_reset = function() {
-	ime_api.commitText({
-		"contextID": context_id,
-		"text": unikey.get_result(),
-	});
-	unikey.reset();
-}
-
-function onActivate(engineID) {
-	if (engineID == "unikey-telex") {
-		INPUT_METHOD_KEYS = /^[a-zA-Z{}\[\]]$/;
-		unikey.set_input_method(libunikey.InputMethod.TELEX);
-	} else if (engineID == "unikey-telex-simple") {
-		INPUT_METHOD_KEYS = /^[a-zA-Z]$/;
-		unikey.set_input_method(libunikey.InputMethod.TELEX_SIMPLE);
-	} else if (engineID == "unikey-vni") {
-		INPUT_METHOD_KEYS = /^[a-zA-Z0-9]$/;
-		unikey.set_input_method(libunikey.InputMethod.VNI);
-	} else {
-		throw Error("invalid engineID: " + engineID);
+	_buildOptionMenu() {
+		var items = {}
+		items[KEY_SPELLCHECK] = {
+			id: KEY_SPELLCHECK,
+			label: "Spellcheck",
+			style: "check",
+			checked: false,
+		}
+		items[KEY_AUTORESTORE] = {
+			id: KEY_AUTORESTORE,
+			label: "Auto restore non Vietnamese",
+			style: "check",
+			checked: false,
+		}
+		items[KEY_MODERN_STYLE] = {
+			id: KEY_MODERN_STYLE,
+			label: "Modern style (oà, uý)",
+			style: "check",
+			checked: false,
+		}
+		return items;
 	}
 
-	MENU["engineID"] = engineID;
-	ime_api.setMenuItems(MENU);
-	unikey.set_options(unikey_opts);
-}
+	updateMenuItems() {
+		for (var k in this.unikey_opts) {
+			this.menuItems[k].checked = this.unikey_opts[k];
+		}
 
-function onFocus(context) {
-	context_id = context.contextID;
-	unikey.reset()
-}
+		if (this.menu.engineID.length > 0) {
+			this.ime_api.updateMenuItems(this.menu);
+		}
+	}
 
-function onBlur(contextID) {
-	context_id = -1
-}
+	updateComposition() {
+		var r = this.unikey.get_result();
+		this.ime_api.setComposition({
+			"contextID": this.contextID,
+			"text": r,
+			"cursor": r.length,
+		});
+	}
 
-function onKeyEvent(engineID, keyData) {
-	if (keyData.type != "keydown") {
+	commitAndReset() {
+		this.ime_api.commitText({
+			"contextID": this.contextID,
+			"text": this.unikey.get_result(),
+		});
+		this.unikey.reset();
+	}
+
+	onMenuItemActivated(engineID, menuId) {
+		this.unikey_opts[menuId] = !this.unikey_opts[menuId];
+
+		if (menuId == KEY_SPELLCHECK && !this.unikey_opts[menuId]) {
+			// disable autorestore if spellcheck disabled
+			this.unikey_opts[KEY_AUTORESTORE] = false;
+		} else if (menuId == KEY_AUTORESTORE && this.unikey_opts[menuId]) {
+			// enable spellcheck if enable autorestore
+			this.unikey_opts[KEY_SPELLCHECK] = true;
+		}
+
+		this.updateMenuItems();
+		this.unikey.set_options(this.unikey_opts);
+		var save_opts = {};
+		for (var k in this.unikey_opts) {
+			if (this.unikey_opts[k] == true)
+				save_opts[k] = true;
+		}
+		this.storage_api.sync.set({unikey_options: save_opts});
+	}
+
+	onActivate(engineID) {
+		if (!(engineID in INPUT_METHODS)) {
+			throw Error("invalid engineID: " + engineID);
+		}
+		this.unikey.set_input_method(INPUT_METHODS[engineID].id);
+
+		this.menu.engineID = engineID;
+		this.ime_api.setMenuItems(this.menu);
+		this.unikey.set_options(this.unikey_opts);
+	}
+
+	onFocus(context) {
+		this.contextID = context.contextID;
+		this.unikey.reset();
+	}
+
+	onBlur(contextID) {
+		this.contextID = -1;
+	}
+
+	onKeyEvent(engineID, keyData) {
+		if (keyData.type != "keydown") {
+			if (keyData.key == "Shift") {
+				this.shiftHadPressed = false;
+			}
+			return false;
+		}
+
 		if (keyData.key == "Shift") {
-			shift_had_pressed = false;
+			if (this.shiftHadPressed && this.unikey.get_result() != "") {
+				this.unikey.restore();
+				this.updateComposition();
+			} else {
+				this.shiftHadPressed = true;
+			}
+			return false;
 		}
+
+		if (keyData.key == "Backspace" && this.unikey.get_result() != "") {
+			this.unikey.process_backspace();
+			this.updateComposition();
+			return true;
+		}
+
+		if (!keyData.ctrlKey && !keyData.altKey && keyData.key.length == 1 && keyData.key.charCodeAt(0) > 0) {
+			this.unikey.process_char(keyData.key.charCodeAt(0));
+			if (keyData.key.match(INPUT_METHODS[engineID].keys)) {
+				this.updateComposition();
+			} else {
+				this.commitAndReset();
+			}
+			return true;
+		}
+
+		// special case not need to commit text
+		if ((keyData.ctrlKey && keyData.key == "Ctrl")
+				|| (keyData.altKey && keyData.key == "Alt")
+				|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay)/)) {
+			return false;
+		}
+
+		this.commitAndReset();
+
 		return false;
 	}
-
-	if (keyData.key == "Shift") {
-		if (shift_had_pressed && unikey.get_result() != "") {
-			unikey.restore();
-			update_composition();
-		} else {
-			shift_had_pressed = true;
-		}
-		return false;
-	}
-
-	if (keyData.key == "Backspace" && unikey.get_result() != "") {
-		unikey.process_backspace();
-		update_composition();
-		return true;
-	}
-
-	if (!keyData.ctrlKey && !keyData.altKey && keyData.key.length == 1 && keyData.key.charCodeAt(0) > 0) {
-		unikey.process_char(keyData.key.charCodeAt(0));
-		if (keyData.key.match(INPUT_METHOD_KEYS)) {
-			update_composition();
-		} else {
-			commit_and_reset();
-		}
-		return true;
-	}
-
-	// special case not need to commit text
-	if ((keyData.ctrlKey && keyData.key == "Ctrl")
-			|| (keyData.altKey && keyData.key == "Alt")
-			|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay)/)) {
-		return false;
-	}
-
-	commit_and_reset();
-
-	return false;
 }
 
 module.exports = {
-	init,
-	onActivate,
-	onFocus,
-	onBlur,
-	onKeyEvent,
-	onMenuItemActivated,
+	ChromeUnikey,
 }
