@@ -41,7 +41,7 @@ release: libunikey
 
 libunikey:
 	@mkdir -p $(BUILD_DIR)/libunikey
-	@(cd $(BUILD_DIR)/libunikey && CC="$(EMXX)" CXX="$(EMCC)" cmake $(SOURCE_DIR)/libunikey && make)
+	@(cd $(BUILD_DIR)/libunikey && CC="$(EMCC)" CXX="$(EMCC)" cmake $(SOURCE_DIR)/libunikey && make)
 
 clean:
 	@(cd $(BUILD_DIR) && $(RM) -r release release.zip debug libunikey *.js)
