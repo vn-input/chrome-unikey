@@ -36,7 +36,6 @@ class ChromeUnikey {
 			modern_style: false,
 		};
 
-		this.shiftHadPressed = false;
 		this.contextID = -1;
 
 		this.menuItems = this._buildOptionMenu();
@@ -146,6 +145,7 @@ class ChromeUnikey {
 	onFocus(context) {
 		this.contextID = context.contextID;
 		this.unikey.reset();
+		this.pressedKeyCodes = new Set([]);
 	}
 
 	onBlur(contextID) {
@@ -153,19 +153,20 @@ class ChromeUnikey {
 	}
 
 	onKeyEvent(engineID, keyData) {
-		if (keyData.type != "keydown") {
-			if (keyData.key == "Shift") {
-				this.shiftHadPressed = false;
-			}
+		if (keyData.type == "keyup") {
+			this.pressedKeyCodes.delete(keyData.code);
 			return false;
 		}
 
+		this.pressedKeyCodes.add(keyData.code);
+
 		if (keyData.key == "Shift") {
-			if (this.shiftHadPressed && this.unikey.get_result() != "") {
+			let iter = this.pressedKeyCodes.values();
+			if (this.pressedKeyCodes.size == 2
+					&& iter.next().value.indexOf('Shift') >= 0
+					&& iter.next().value.indexOf('Shift') >= 0) {
 				this.unikey.restore();
 				this.updateComposition();
-			} else {
-				this.shiftHadPressed = true;
 			}
 			return false;
 		}
