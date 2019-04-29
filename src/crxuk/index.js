@@ -146,6 +146,7 @@ class ChromeUnikey {
 		this.contextID = context.contextID;
 		this.unikey.reset();
 		this.pressedKeyCodes = new Set([]);
+		this.lastKeyData = null;
 	}
 
 	onBlur(contextID) {
@@ -153,12 +154,21 @@ class ChromeUnikey {
 	}
 
 	onKeyEvent(engineID, keyData) {
+
 		if (keyData.type == "keyup") {
+			if (this.pressedKeyCodes.size == 1
+				&& this.lastKeyData.key == 'Ctrl'
+				&& keyData.key == 'Ctrl') {
+				this.commitAndReset();
+			}
+
 			this.pressedKeyCodes.delete(keyData.code);
+			this.lastKeyData = keyData;
 			return false;
 		}
 
 		this.pressedKeyCodes.add(keyData.code);
+		this.lastKeyData = keyData;
 
 		if (keyData.key == "Shift") {
 			let iter = this.pressedKeyCodes.values();
