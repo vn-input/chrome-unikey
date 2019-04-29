@@ -48,7 +48,7 @@ class ChromeUnikey {
 			]
 		}
 
-		this.storage_api.sync.get([KEY_UNIKEY_OPTIONS], function(result) {
+		this.storage_api.sync.get([KEY_UNIKEY_OPTIONS], result => {
 			if (!(KEY_UNIKEY_OPTIONS in result)) {
 				return;
 			}
