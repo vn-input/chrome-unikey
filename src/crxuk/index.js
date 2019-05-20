@@ -376,7 +376,7 @@ class ChromeUnikey {
 			return false;
 		}
 
-		if (keyData.key == "Backspace" && this.unikey.get_result() != "") {
+		if (!keyData.ctrlKey && !keyData.altKey && keyData.key == "Backspace" && this.unikey.get_result() != "") {
 			this.unikey.process_backspace();
 			this.updateComposition();
 			return true;
