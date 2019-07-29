@@ -250,21 +250,21 @@ class ChromeUnikey {
 		}
 
 		if (this.crxukOptions.suggestion.useHkArrow) {
-			if (keyData.key == "Down") {
+			if (!keyData.ctrlKey && !keyData.altKey && keyData.key == "Down") {
 				this.cddIndex = (this.cddIndex + 1) % this.cddList.length;
 				this.ime_api.setCursorPosition({
 					contextID: this.contextID,
 					candidateID: this.cddList[this.cddIndex].id,
 				});
 				return true;
-			} else if (keyData.key == "Up") {
+			} else if (!keyData.ctrlKey && !keyData.altKey && keyData.key == "Up") {
 				this.cddIndex = (this.cddList.length + this.cddIndex - 1) % this.cddList.length;
 				this.ime_api.setCursorPosition({
 					contextID: this.contextID,
 					candidateID: this.cddList[this.cddIndex].id,
 				});
 				return true;
-			} else if (keyData.key == "Enter") {
+			} else if (keyData.ctrlKey && !keyData.altKey && keyData.key == "Enter") {
 				this.commitCandidate(this.cddIndex);
 				return true;
 			}
