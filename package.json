@@ -1,6 +1,6 @@
 {
   "name": "chrome-unikey",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "chrome-unikey is an chrome extension that provide input method for Chrome OS that built on [libunikey](https://github.com/vn-input/libunikey)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,8 +18,8 @@
   "devDependencies": {
     "bootstrap": "^4.3.1",
     "css-loader": "^2.1.1",
-    "jquery": "^3.3.1",
-    "mocha": "^6.1.1",
+    "jquery": "^3.4.1",
+    "mocha": "^6.2.0",
     "node-sass": "4.x",
     "popper.js": "^1.15.0",
     "postcss-loader": "^3.0.0",

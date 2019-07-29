@@ -10,13 +10,11 @@ Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for a
 ## Install
 
 1. Install [emscripten sdk](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
-2. Then type `make` to build
+2. Then build
 
     ```
     source /path/to/emsdk/emsdk_env.sh
     cd chrome-unikey
-    git submodule init
-    git submodule update
+    git submodule init --update
     make
     ```
-
