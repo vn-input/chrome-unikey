@@ -13,6 +13,32 @@ var KEY = function(key, code, ctrl, alt) {
 	}
 }
 
+var sendKeys = function(c, engine, keys) {
+	for (var i = 0; i < keys.length; i++) {
+		switch (keys[i]) {
+			case 'Ctrl+Enter':
+				var k1 = KEY('Ctrl', null, true);
+				c.onKeyEvent(engine, k1);
+
+				var k2 = KEY('Enter', null, true);
+				c.onKeyEvent(engine, k2);
+
+				k2.type = 'keyup';
+				c.onKeyEvent(engine, k2);
+
+				k1.type = 'keyup';
+				c.onKeyEvent(engine, k1);
+				break;
+			default:
+				var k = KEY(keys[i]);
+				c.onKeyEvent(engine, k);
+				k.type = 'keyup';
+				c.onKeyEvent(engine, k);
+				break;
+		}
+	}
+}
+
 var txtCommitted = '';
 var txtComposition;
 
@@ -54,16 +80,7 @@ thi thoAng2
 		onChanged: {
 			addListener: function(changes, areaName) {},
 		}
-},
-}
-
-var sendKeys = function(c, engine, keys) {
-	for (var i = 0; i < keys.length; i++) {
-		var k = KEY(keys[i]);
-		c.onKeyEvent(engine, k);
-		k.type = 'keyup';
-		c.onKeyEvent(engine, k);
-	}
+	},
 }
 
 describe('crxuk module', function() {
@@ -203,7 +220,7 @@ describe('crxuk module', function() {
 
 		it('basic', function() {
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thônG thường');
 		});
 
@@ -216,19 +233,19 @@ describe('crxuk module', function() {
 
 		it('Down key', function() {
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Down', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Down', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'tHi thoang');
 		});
 
 		it('Up key', function() {
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Up', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Up', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thi thoAng2');
 		});
 
 		it('Up key then more key', function() {
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 'h', 'Up', 'o', 'Enter']);
+			sendKeys(c, engine, ['t', 'h', 'Up', 'o', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thônG thường');
 		});
 
@@ -243,12 +260,12 @@ describe('crxuk module', function() {
 			txtCommitted = '';
 			sendKeys(c, engine, 'tho');
 			c.onKeyEvent(engine, KEY('`', null, true));
-			c.onKeyEvent(engine, KEY('Enter'));
+			sendKeys(c, engine, ['Ctrl+Enter']);
 			assert.equal(txtCommitted, 'THÔNG THƯỜNG');
 
 			txtCommitted = '';
 			sendKeys(c, engine, 'tho');
-			c.onKeyEvent(engine, KEY('Enter'));
+			sendKeys(c, engine, ['Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thônG thường');
 		});
 
@@ -256,7 +273,7 @@ describe('crxuk module', function() {
 			txtCommitted = '';
 			sendKeys(c, engine, 'th');
 			c.onKeyEvent(engine, KEY('~', null, true));
-			c.onKeyEvent(engine, KEY('Enter'));
+			sendKeys(c, engine, ['Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thonG thuong');
 		});
 
@@ -271,7 +288,7 @@ describe('crxuk module', function() {
 			c.onFocus({contextID: 1});
 
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'tt');
 		});
 
@@ -287,7 +304,7 @@ describe('crxuk module', function() {
 
 			// useHkArrow
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'tt');
 
 			// useHkNumber
@@ -317,7 +334,7 @@ describe('crxuk module', function() {
 
 			// useHkArrow
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thônG thường');
 
 			// useHkNumber
@@ -348,7 +365,7 @@ describe('crxuk module', function() {
 
 			// useHkArrow
 			txtCommitted = '';
-			sendKeys(c, engine, ['t', 't', 'Enter']);
+			sendKeys(c, engine, ['t', 't', 'Ctrl+Enter']);
 			assert.equal(txtCommitted, 'thônG thường');
 
 			// useHkNumber
