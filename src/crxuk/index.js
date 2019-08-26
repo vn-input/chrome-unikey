@@ -175,14 +175,19 @@ class ChromeUnikey {
 
 	updateComposition() {
 		var r = this.unikey.get_result();
-		this.ime_api.setComposition({
-			contextID: this.contextID,
-			text: r,
-			cursor: r.length,
-		});
+		if (r.length > 0) {
+			this.ime_api.setComposition({
+				contextID: this.contextID,
+				text: r,
+				cursor: r.length,
+			});
+		} else {
+			this.ime_api.clearComposition({
+				contextID: this.contextID,
+			});
+		}
 
 		if (this.crxukOptions.suggestion.enabled) {
-
 			if (this.crxukOptions.suggestion.autoResetSwitch && this.cddList.length == 0) {
 				this.cddWordCase = WORD_CASE_DEFAULT;
 				this.cddRemoveTone = false;
