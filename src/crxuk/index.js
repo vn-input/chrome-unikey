@@ -348,6 +348,10 @@ class ChromeUnikey {
 		});
 	}
 
+	onReset(engineID) {
+		this.unikey.reset()
+	}
+
 	onKeyEvent(engineID, keyData) {
 
 		if (keyData.type == "keyup") {

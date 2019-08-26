@@ -8,6 +8,7 @@ chrome.runtime.getPlatformInfo(function(info) {
 		ime_api.onActivate.addListener(unikey.onActivate.bind(unikey));
 		ime_api.onFocus.addListener(unikey.onFocus.bind(unikey));
 		ime_api.onBlur.addListener(unikey.onBlur.bind(unikey));
+		ime_api.onReset.addListener(unikey.onReset.bind(unikey));
 		ime_api.onKeyEvent.addListener(unikey.onKeyEvent.bind(unikey));
 		ime_api.onMenuItemActivated.addListener(unikey.onMenuItemActivated.bind(unikey));
 		ime_api.onCandidateClicked.addListener(unikey.onCandidateClicked.bind(unikey));
