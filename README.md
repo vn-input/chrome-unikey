@@ -10,7 +10,7 @@ Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for a
 ## Install
 
 1. Install [emscripten sdk](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
-2. Then build
+2. Build
 
     ```
     source /path/to/emsdk/emsdk_env.sh
@@ -18,3 +18,4 @@ Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for a
     git submodule init --update
     make
     ```
+3. Goto `chrome://extensions/` then `Load unpacked`, path `chrome-unikey/build/debug` or `chrome-unikey/build/release`
