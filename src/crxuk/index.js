@@ -338,8 +338,8 @@ class ChromeUnikey {
 	onFocus(context) {
 		this.contextID = context.contextID;
 		this.unikey.reset();
-		this.pressedKeyCodes = new Set([]);
-		this.lastKeyData = null;
+		this.pressedKeyCodes = new Set([]); // still pressed keys
+		this.lastKeyData = null; // last up/down key
 	}
 
 	onBlur(contextID) {
@@ -358,27 +358,28 @@ class ChromeUnikey {
 	}
 
 	onKeyEvent(engineID, keyData) {
-
 		if (keyData.type == "keyup") {
-			if (this.pressedKeyCodes.size == 1
-				&& this.lastKeyData.key == 'Ctrl'
-				&& keyData.key == 'Ctrl') {
+			// if Ctrl down -> Ctrl up (without any other key pressed)
+			if (this.pressedKeyCodes.size == 1 && keyData.key == 'Ctrl' && keyData.code == this.lastKeyData.code) {
 				this.commitAndReset();
 			}
 
 			this.pressedKeyCodes.delete(keyData.code);
 			this.lastKeyData = keyData;
 			return false;
+		} else {
+			return this.onKeyEvent_down(engineID, keyData)
 		}
+	}
 
+	onKeyEvent_down(engineID, keyData) {
 		this.pressedKeyCodes.add(keyData.code);
 		this.lastKeyData = keyData;
 
 		if (keyData.key == "Shift") {
-			let iter = this.pressedKeyCodes.values();
-			if (this.pressedKeyCodes.size == 2
-					&& iter.next().value.indexOf('Shift') >= 0
-					&& iter.next().value.indexOf('Shift') >= 0) {
+			let keys = Array.from(this.pressedKeyCodes);
+			// if press both Shift left+right
+			if (keys.length == 2 && keys[0].indexOf('Shift') >= 0 && keys[1].indexOf('Shift') >= 0) {
 				this.unikey.restore();
 				this.updateComposition();
 			}
