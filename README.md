@@ -16,6 +16,7 @@ Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for a
     source /path/to/emsdk/emsdk_env.sh
     cd chrome-unikey
     git submodule init --update
+    npm install
     make
     ```
 3. Goto `chrome://extensions/` then `Load unpacked`, path `chrome-unikey/build/debug` or `chrome-unikey/build/release`
