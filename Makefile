@@ -8,10 +8,9 @@ LIBUNIKEY_INC = -I $(SOURCE_DIR)/libunikey/src
 
 BASE_EMCC = $(EMCC) $(SOURCE_DIR)/src/embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUNIKEY_INC) \
 	-s ENVIRONMENT=web \
-	-s MODULARIZE_INSTANCE=1 \
-	-s EXPORT_NAME=LibUnikey \
-	-s WASM=0 \
-	--memory-init-file 0
+	-s MODULARIZE=1 \
+	-s EXPORT_NAME=LibUnikeyFactory \
+	-s WASM=1
 
 .PHONY: all release debug clean libunikey test
 

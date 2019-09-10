@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var libunikey = require('../build/libunikey-test');
+var LibUnikeyFactory = require('../build/libunikey-test');
 var crxuk = require('../src/crxuk');
 
 var KEY = function(key, code, ctrl, alt) {
@@ -83,7 +83,14 @@ thi thoAng2
 	},
 }
 
+var libunikey
+LibUnikeyFactory().then(instance => {
+	libunikey = instance
+	run()
+})
+
 describe('crxuk module', function() {
+
 	describe('test input', function() {
 		it('test engine: invalid', function() {
 			txtCommitted = '';
@@ -214,9 +221,12 @@ describe('crxuk module', function() {
 			})
 		}
 
-		var c = new crxuk.ChromeUnikey(fakeChrome2, libunikey);
-		c.onActivate(engine);
-		c.onFocus({contextID: 1});
+		var c
+		beforeEach(() => {
+			c = new crxuk.ChromeUnikey(fakeChrome2, libunikey);
+			c.onActivate(engine);
+			c.onFocus({contextID: 1});
+		})
 
 		it('basic', function() {
 			txtCommitted = '';
