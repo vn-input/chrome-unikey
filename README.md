@@ -15,7 +15,7 @@ Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for a
     ```
     source /path/to/emsdk/emsdk_env.sh
     cd chrome-unikey
-    git submodule init --update
+    git submodule update --init
     npm install
     make
     ```
