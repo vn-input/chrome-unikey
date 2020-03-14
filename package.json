@@ -1,6 +1,6 @@
 {
   "name": "chrome-unikey",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "chrome-unikey is an chrome extension that provide input method for Chrome OS that built on [libunikey](https://github.com/vn-input/libunikey)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
