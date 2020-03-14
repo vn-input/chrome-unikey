@@ -10,7 +10,7 @@
     "url": "git+https://github.com/vn-input/chrome-unikey.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/vn-input/chrome-unikey/issues"
   },
@@ -20,7 +20,7 @@
     "css-loader": "^2.1.1",
     "jquery": "^3.4.1",
     "mocha": "^6.2.0",
-    "node-sass": "4.x",
+    "node-sass": "^4.13.1",
     "popper.js": "^1.15.0",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
