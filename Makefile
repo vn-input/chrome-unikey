@@ -10,6 +10,7 @@ BASE_EMCC = $(EMCC) $(SOURCE_DIR)/src/embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUN
 	-s ENVIRONMENT=web \
 	-s MODULARIZE=1 \
 	-s EXPORT_NAME=LibUnikeyFactory \
+	-s DYNAMIC_EXECUTION=0 \
 	-s WASM=1
 
 .PHONY: all release debug clean libunikey test
