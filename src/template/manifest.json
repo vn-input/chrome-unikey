@@ -41,6 +41,30 @@
       "description": "VNI input style",
       "language": "vi",
       "layouts": []
+    },
+    {
+      "name": "Vietnamese with French keyboard - Unikey (Telex)",
+      "type": "ime",
+      "id": "fr-unikey-telex",
+      "description": "Telex input style",
+      "language": "vi",
+      "layouts": ["fr"]
+    },
+    {
+      "name": "Vietnamese with French keyboard - Unikey (Telex - Simple)",
+      "type": "ime",
+      "id": "fr-unikey-telex-simple",
+      "description": "Simple Telex input style",
+      "language": "vi",
+      "layouts": ["fr"]
+    },
+    {
+      "name": "Vietnamese with French keyboard - Unikey (VNI)",
+      "type": "ime",
+      "id": "fr-unikey-vni",
+      "description": "VNI input style",
+      "language": "vi",
+      "layouts": ["fr"]
     }
   ],
   "icons": {
