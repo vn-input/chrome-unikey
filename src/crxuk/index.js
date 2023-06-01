@@ -35,6 +35,18 @@ class ChromeUnikey {
 					id: libunikey.InputMethod.VNI,
 					keys: /^[a-zA-Z0-9]$/,
 				},
+				"fr-unikey-telex": {
+					id: libunikey.InputMethod.TELEX,
+					keys: /^[a-zA-Z{}\[\]]$/,
+				},
+				"fr-unikey-telex-simple": {
+					id: libunikey.InputMethod.TELEX_SIMPLE,
+					keys: /^[a-zA-Z]$/,
+				},
+				"fr-unikey-vni": {
+					id: libunikey.InputMethod.VNI,
+					keys: /^[a-zA-Z0-9]$/,
+				}
 			}
 		}
 
