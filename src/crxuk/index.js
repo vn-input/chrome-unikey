@@ -422,7 +422,7 @@ class ChromeUnikey {
 		if ((keyData.ctrlKey && keyData.key == "Ctrl")
 				|| (keyData.altKey && keyData.key == "Alt")
 				|| (this.unikey.get_result() == "" && (keyData.code.match(/Arrow/) || keyData.ctrlKey || keyData.altKey))
-				|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay)/)) {
+				|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay|Escape|SelectTask|Power)/)) {
 			return false;
 		}
 
