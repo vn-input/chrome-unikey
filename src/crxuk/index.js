@@ -421,7 +421,7 @@ class ChromeUnikey {
 		// special case not need to commit text
 		if ((keyData.ctrlKey && keyData.key == "Ctrl")
 				|| (keyData.altKey && keyData.key == "Alt")
-				|| (this.unikey.get_result() == "" && keyData.code.match(/Arrow/))
+				|| (this.unikey.get_result() == "" && (keyData.code.match(/Arrow/) || keyData.ctrlKey || keyData.altKey))
 				|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay)/)) {
 			return false;
 		}
