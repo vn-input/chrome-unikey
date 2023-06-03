@@ -2,7 +2,7 @@ var webpack = require("webpack");
 
 
 module.exports = {
-	mode: 'development',
+	mode: 'production',
 	entry: {
 		main: './src/index.js',
 		options: './src/options/options.js',

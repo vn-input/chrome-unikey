@@ -17,7 +17,7 @@ BASE_EMCC = $(EMCC) $(SOURCE_DIR)/src/embind.cpp --bind $(LIBUNIKEY_LIB) $(LIBUN
 
 all: debug release
 
-debug: libunikey
+debug: libunikey npm-install
 	@$(RM) -r $(BUILD_DIR)/$@
 	@cp -r $(SOURCE_DIR)/src/template $(BUILD_DIR)/$@
 
@@ -25,17 +25,17 @@ debug: libunikey
 	@sed -i.bak -E 's/__MSG_appName__/\0 DEBUG/ ; s/Vietnamese[^"]*/\0 DEBUG/' $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
 
-	@npx webpack --config webpack.dev.js --output-path $(BUILD_DIR)/$@/
+	@npx webpack --config webpack.debug.js --output-path $(BUILD_DIR)/$@/
 	@$(BASE_EMCC) -o $(BUILD_DIR)/$@/unikey.js -O0
 
-release: libunikey
+release: libunikey npm-install
 	@$(RM) -r $(BUILD_DIR)/$@
 	@cp -r $(SOURCE_DIR)/src/template $(BUILD_DIR)/$@
 
 	@sed -i.bak -E "s/__VERSION__/`node -p "require('./package.json').version"`/" $(BUILD_DIR)/$@/manifest.json
 	@rm -f $(BUILD_DIR)/$@/manifest.json.bak
 
-	@npx webpack --config webpack.prod.js --output-path $(BUILD_DIR)/$@/
+	@npx webpack --config webpack.release.js --output-path $(BUILD_DIR)/$@/
 	@$(BASE_EMCC) -o $(BUILD_DIR)/$@/unikey.js -O3
 	@$(RM) $(BUILD_DIR)/$@.zip && (cd $(BUILD_DIR)/$@ && zip -r ../$@.zip *)
 
@@ -43,8 +43,11 @@ libunikey:
 	@mkdir -p $(BUILD_DIR)/libunikey
 	@(cd $(BUILD_DIR)/libunikey && CC="$(EMCC)" CXX="$(EMCC)" cmake $(SOURCE_DIR)/libunikey && make)
 
+npm-install:
+	@npm install
+
 clean:
-	@(cd $(BUILD_DIR) && $(RM) -r release release.zip debug libunikey *.js)
+	@$(RM) -rf node_modules $(BUILD_DIR)
 
 test:
 	@$(BASE_EMCC) -o $(BUILD_DIR)/libunikey-test.js -O0 -s "ENVIRONMENT=node"

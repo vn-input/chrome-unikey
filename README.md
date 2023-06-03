@@ -7,16 +7,42 @@ The extension is published at [Chrome Webstore](https://chrome.google.com/websto
 
 Please create an [issue](https://github.com/vn-input/chrome-unikey/issues) for any question, feature request or bug
 
-## Install
+## Develop
 
-1. Install [emscripten sdk](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html)
-2. Build
+### Get source code
+
+```bash
+git clone https://github.com/vn-input/chrome-unikey.git
+cd chrome-unikey
+git submodule update --init
+```
+
+### Build with docker - recommends
+
+```bash
+./docker-build.sh
+
+# for clean up
+./docker-build.sh make clean
+```
+
+### Build manual
+
+1. Install emsdk 3.1.40 (most other version will work, but we test on this version)
+
+2. Install nodejs 20
+
+3. Build
 
     ```
     source /path/to/emsdk/emsdk_env.sh
     cd chrome-unikey
-    git submodule update --init
-    npm install
     make
     ```
-3. Goto `chrome://extensions/` then `Load unpacked`, path `chrome-unikey/build/debug` or `chrome-unikey/build/release`
+
+### Load into chrome/chromium
+
+Goto `chrome://extensions/` then `Load unpacked`
+
+- `chrome-unikey/build/debug` for debug version - with console.log
+- `chrome-unikey/build/release` for release version - without console.log
