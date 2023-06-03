@@ -235,9 +235,14 @@ class ChromeUnikey {
 	}
 
 	commitAndReset(text) {
+		text = text || this.unikey.get_result()
+		if (text == "") {
+			return
+		}
+
 		this.ime_api.commitText({
 			contextID: this.contextID,
-			text: text || this.unikey.get_result(),
+			text: text,
 		});
 		this.unikey.reset();
 
@@ -419,9 +424,8 @@ class ChromeUnikey {
 		}
 
 		// special case not need to commit text
-		if ((keyData.ctrlKey && keyData.key == "Ctrl")
-				|| (keyData.altKey && keyData.key == "Alt")
-				|| (this.unikey.get_result() == "" && (keyData.code.match(/Arrow/) || keyData.ctrlKey || keyData.altKey))
+		if ((keyData.ctrlKey && keyData.key == "Ctrl") // press Ctrl (key down): not commit because used by candidate feature
+				|| (keyData.altKey && keyData.key == "Alt") // press Alt
 				|| keyData.code.match(/(AudioVolume|Brightness|Zoom|MediaPlay|Escape|SelectTask|Power)/)) {
 			return false;
 		}
