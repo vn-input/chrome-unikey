@@ -7,11 +7,11 @@
     <div id="notification"></div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="suggestion-tab" data-toggle="tab" href="#suggestion" role="tab" aria-controls="suggestion" aria-selected="false">Suggestion</a>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="suggestion-tab" data-bs-toggle="tab" data-bs-target="#suggestion" role="tab" aria-controls="suggestion" aria-selected="false">Suggestion</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -54,7 +54,7 @@
             </label>
           </div>
 
-          <div id="suggestion-settings" class="ml-4">
+          <div id="suggestion-settings" class="ms-4">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="useHkArrow">
               <label class="form-check-label" for="useHkArrow">
@@ -73,7 +73,7 @@
                 Use <span class="hotkey">Ctrl+`</span> for change text case, <span class="hotkey">Ctrl+~</span> for remove Vietnamese marks
               </label>
             </div>
-            <div class="form-check ml-4">
+            <div class="form-check ms-4">
               <input class="form-check-input" type="checkbox" value="" id="autoResetSwitch">
               <label class="form-check-label" for="autoResetSwitch">
                 Reset state for new suggestion
@@ -82,7 +82,7 @@
 
             <div class="mb-3 mt-2">
               <label for="suggestion-text">Suggestion strings (separated by new-line)</label>
-              <div class="ml-3">
+              <div class="ms-3">
                 <textarea class="form-control" id="suggestion-text" rows=8 placeholder="suggestion strings"></textarea>
                 <div class="alert alert-secondary" role="alert">
                   currently, suggestion data is stored in local storage only!
