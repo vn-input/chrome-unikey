@@ -202,6 +202,23 @@ describe('crxuk module', function() {
 			c.onKeyEvent(engine, KEY('Shift', 'RightShift'));
 			assert.equal(txtComposition, 'thuongwr');
 		});
+
+		it('test wide characters input', function() {
+			txtCommitted = '';
+			txtComposition = '';
+
+			var engine = 'unikey-telex';
+			var c = new crxuk.ChromeUnikey(fakeChrome, libunikey);
+			c.onActivate(engine);
+
+			c.onFocus({contextID: 1});
+
+			sendKeys(c, engine, 'ç');
+			sendKeys(c, engine, '€');
+			sendKeys(c, engine, '£');
+			sendKeys(c, engine, 'µ');
+			assert.equal(txtCommitted, 'ç€£µ');
+		});
 	});
 
 	describe('suggestion feature', function() {

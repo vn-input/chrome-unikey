@@ -10,8 +10,8 @@ using namespace unikey;
 class _EM_SimpleUnikey : public SimpleUnikey {
 public:
   void reset() { SimpleUnikey::reset(); }
-  void process(unsigned char c) { return SimpleUnikey::process(c); }
-  void process(std::string const& str) { return SimpleUnikey::process(str); }
+  void process(unsigned int c) { return SimpleUnikey::process(c); }
+  void process(std::wstring const& str) { return SimpleUnikey::process(str); }
   void process_backspace() { SimpleUnikey::process_backspace(); }
   void restore() { SimpleUnikey::restore(); }
   void set_input_method(const InputMethod im) { SimpleUnikey::set_input_method(im); }
@@ -26,8 +26,8 @@ public:
 EMSCRIPTEN_BINDINGS(simple_unikey) {
   class_<_EM_SimpleUnikey>("SimpleUnikey")
     .constructor<>()
-    .function("process_char", select_overload<void(unsigned char)>(&_EM_SimpleUnikey::process))
-    .function("process", select_overload<void(const std::string&)>(&_EM_SimpleUnikey::process))
+    .function("process_char", select_overload<void(unsigned int)>(&_EM_SimpleUnikey::process))
+    .function("process", select_overload<void(const std::wstring&)>(&_EM_SimpleUnikey::process))
     .function("process_backspace", &_EM_SimpleUnikey::process_backspace)
     .function("get_result", &_EM_SimpleUnikey::get_result)
     .function("restore", &_EM_SimpleUnikey::restore)
